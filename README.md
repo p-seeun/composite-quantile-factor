@@ -7,6 +7,7 @@ The source code for simulations and real data analysis included in the paper 'Co
 - Simulations
   - This folder includes codes that derive the results in Tables 1 and 2.  
 - Real data analysis
-  - Monthly stock return : 
+  - Monthly stock return :
+    - d  
   - FRED-MD : 
-  
+    - d
