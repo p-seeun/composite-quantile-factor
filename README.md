@@ -1,5 +1,5 @@
 # composite-quantile-factor
-The source code for simulations and real data analysis included in the paper 'Composite Quantile Factor Modeling for High-Dimensional Data' is available. For the real data analysis, two economic datasets are used: the CRSP monthly stock return data and the FRED-MD data.
+The source code for simulations and real data analysis included in the paper 'A Data-Adaptive Factor Model Using Composite Quantile Approach' is available. For the real data analysis, two economic datasets are used: the CRSP monthly stock return data and the FRED-MD data.
 
 ## Overview
 - `CQFM algorithm.R`: It is a code for functions that estimate composite quantile factor model. 
