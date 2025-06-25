@@ -1,4 +1,4 @@
-source("CQFM algorithm.R")
+source("DAFM algorithm.R")
 source("RobPCA, QFM algorithms.R")
 library(cqrfactor)
 
@@ -32,9 +32,9 @@ N = ncol(Z)
 Te = nrow(Z)
 
 set.seed(1)
-# CQFM_unif
-CQFM_unif = cqfm_est(Z, r=15, tau.vec=c(0.01,0.1,0.3,0.5,0.7,0.9,0.99), tol=1e-5, weight=c(1,1,1,1,1,1,1))
-lmat = CQFM_unif$lmat
+# DAFM_unif
+DAFM_unif = dafm_est(Z, r=15, tau.vec=c(0.01,0.1,0.3,0.5,0.7,0.9,0.99), tol=1e-5, weight=c(1,1,1,1,1,1,1))
+lmat = DAFM_unif$lmat
 rhats = lapply(lmat, function(L){ x= eigen(t(L)%*%L/N)$values; return(sum( x > min(N,Te)^(-1/3)*x[1] ))}) 
 rhat = max(unlist(rhats))
 rhat # 2
@@ -89,23 +89,23 @@ dum = t(lmat) %*% lmat / N
 rhat <- sum(eigen(dum)$values > min(N,Te)^(-1/3)* eigen(dum)$values[1]) #log(N*Te/(N+Te))*(N+Te)/N/Te 
 rhat # =1
 
-#CQFM_low
-CQFM_low = cqfm_est(Z, r=15, tau.vec=c(0.01,0.1,0.3,0.5,0.7,0.9,0.99), tol=1e-5, weight=c(2,2,1,1,1,1,1))
-lmat = CQFM_low$lmat
+#DAFM_low
+DAFM_low = dafm_est(Z, r=15, tau.vec=c(0.01,0.1,0.3,0.5,0.7,0.9,0.99), tol=1e-5, weight=c(2,2,1,1,1,1,1))
+lmat = DAFM_low$lmat
 rhats = lapply(lmat, function(L){ x= eigen(t(L)%*%L/N)$values; return(sum( x > min(N,Te)^(-1/3)*x[1] ))}) 
 rhat = max(unlist(rhats))
 rhat # 2
 
-#CQFM_med
-CQFM_med = cqfm_est(Z, r=15, tau.vec=c(0.01,0.1,0.3,0.5,0.7,0.9,0.99), tol=1e-5, weight=c(1,1,2,2,2,1,1))
-lmat = CQFM_med$lmat
+#DAFM_med
+DAFM_med = dafm_est(Z, r=15, tau.vec=c(0.01,0.1,0.3,0.5,0.7,0.9,0.99), tol=1e-5, weight=c(1,1,2,2,2,1,1))
+lmat = DAFM_med$lmat
 rhats = lapply(lmat, function(L){ x= eigen(t(L)%*%L/N)$values; return(sum( x > min(N,Te)^(-1/3)*x[1] ))}) 
 rhat = max(unlist(rhats))
 rhat # 2
 
-#CQFM_high
-CQFM_high = cqfm_est(Z, r=15, tau.vec=c(0.01,0.1,0.3,0.5,0.7,0.9,0.99), tol=1e-5, weight=c(1,1,1,1,1,2,2))
-lmat = CQFM_high$lmat
+#DAFM_high
+DAFM_high = dafm_est(Z, r=15, tau.vec=c(0.01,0.1,0.3,0.5,0.7,0.9,0.99), tol=1e-5, weight=c(1,1,1,1,1,2,2))
+lmat = DAFM_high$lmat
 rhats = lapply(lmat, function(L){ x= eigen(t(L)%*%L/N)$values; return(sum( x > min(N,Te)^(-1/3)*x[1] ))}) 
 rhat = max(unlist(rhats))
 rhat # 2
@@ -165,10 +165,10 @@ CIV = apply(Resid,1,mean)
 
 # Get Factors
 set.seed(1)
-f.CQFM_unif = cqfm_est(X=Z, r=2, tau.vec=c(0.01,0.1,0.3,0.5,0.7,0.9,0.99), weight=c(1,1,1,1,1,1,1), tol=1e-5)$fmat
-f.CQFM_low = cqfm_est(X=Z, r=2, tau.vec=c(0.01,0.1,0.3,0.5,0.7,0.9,0.99), weight=c(2,2,1,1,1,1,1), tol=1e-5)$fmat
-f.CQFM_med = cqfm_est(X=Z, r=2, tau.vec=c(0.01,0.1,0.3,0.5,0.7,0.9,0.99), weight=c(1,1,2,2,2,1,1), tol=1e-5)$fmat
-f.CQFM_high = cqfm_est(X=Z, r=2, tau.vec=c(0.01,0.1,0.3,0.5,0.7,0.9,0.99), weight=c(1,1,1,1,1,2,2), tol=1e-5)$fmat
+f.DAFM_unif = dafm_est(X=Z, r=2, tau.vec=c(0.01,0.1,0.3,0.5,0.7,0.9,0.99), weight=c(1,1,1,1,1,1,1), tol=1e-5)$fmat
+f.DAFM_low = dafm_est(X=Z, r=2, tau.vec=c(0.01,0.1,0.3,0.5,0.7,0.9,0.99), weight=c(2,2,1,1,1,1,1), tol=1e-5)$fmat
+f.DAFM_med = dafm_est(X=Z, r=2, tau.vec=c(0.01,0.1,0.3,0.5,0.7,0.9,0.99), weight=c(1,1,2,2,2,1,1), tol=1e-5)$fmat
+f.DAFM_high = dafm_est(X=Z, r=2, tau.vec=c(0.01,0.1,0.3,0.5,0.7,0.9,0.99), weight=c(1,1,1,1,1,2,2), tol=1e-5)$fmat
 
 f.QFM01 = qfm_est(X=Z, r=1, tau=0.01, tol=1e-5)$fmat
 f.QFM1 = qfm_est(X=Z, r=1, tau=0.1, tol=1e-5)$fmat
@@ -186,7 +186,7 @@ lamb = t(as.matrix(sqrt(N)*t(svd$v)[1:8,]))
 f.Mean = (Z %*% lamb)/N
 
 # R^2 values from CIV factor (Total)
-summary(lm(CIV~f.CQFM_unif))$adj.r.squared
+summary(lm(CIV~f.DAFM_unif))$adj.r.squared
 summary(lm(CIV~f.QFM01))$adj.r.squared
 summary(lm(CIV~f.QFM1))$adj.r.squared
 summary(lm(CIV~f.QFM3))$adj.r.squared
@@ -196,9 +196,9 @@ summary(lm(CIV~f.QFM9))$adj.r.squared
 summary(lm(CIV~f.QFM99))$adj.r.squared
 summary(lm(CIV~f.Mean))$adj.r.squared
 
-summary(lm(CIV~f.CQFM_low))$adj.r.squared
-summary(lm(CIV~f.CQFM_med))$adj.r.squared
-summary(lm(CIV~f.CQFM_high))$adj.r.squared
+summary(lm(CIV~f.DAFM_low))$adj.r.squared
+summary(lm(CIV~f.DAFM_med))$adj.r.squared
+summary(lm(CIV~f.DAFM_high))$adj.r.squared
 
 summary(lm(CIV~f.Huang))$adj.r.squared
 
@@ -213,7 +213,7 @@ index14 = colnames(Z) %in% Cmp14
 
 # R^2 values from CIV factor (Share code 12)
 CIV12 = apply(Resid[,index12],1,mean)
-summary(lm(CIV12 ~ f.CQFM_unif))$adj.r.squared
+summary(lm(CIV12 ~ f.DAFM_unif))$adj.r.squared
 
 summary(lm(CIV12 ~ f.QFM01))$adj.r.squared
 summary(lm(CIV12 ~ f.QFM1))$adj.r.squared
@@ -225,15 +225,15 @@ summary(lm(CIV12 ~ f.QFM99))$adj.r.squared
 
 summary(lm(CIV12 ~ f.Mean))$adj.r.squared
 
-summary(lm(CIV12 ~ f.CQFM_low))
-summary(lm(CIV12 ~ f.CQFM_med))
-summary(lm(CIV12 ~ f.CQFM_high))
+summary(lm(CIV12 ~ f.DAFM_low))
+summary(lm(CIV12 ~ f.DAFM_med))
+summary(lm(CIV12 ~ f.DAFM_high))
 
 summary(lm(CIV12~f.Huang))$adj.r.squared
 
 # R^2 values from CIV factor (Share code 14)
 CIV14 = apply(Resid[,index14],1,mean)
-summary(lm(CIV14 ~ f.CQFM_unif))$adj.r.squared
+summary(lm(CIV14 ~ f.DAFM_unif))$adj.r.squared
 
 summary(lm(CIV14 ~ f.QFM01))$adj.r.squared
 summary(lm(CIV14 ~ f.QFM1))$adj.r.squared
@@ -245,8 +245,8 @@ summary(lm(CIV14 ~ f.QFM99))$adj.r.squared
 
 summary(lm(CIV14 ~ f.Mean))$adj.r.squared
 
-summary(lm(CIV14 ~ f.CQFM_low))$adj.r.squared
-summary(lm(CIV14 ~ f.CQFM_med))$adj.r.squared
-summary(lm(CIV14 ~ f.CQFM_high))$adj.r.squared
+summary(lm(CIV14 ~ f.DAFM_low))$adj.r.squared
+summary(lm(CIV14 ~ f.DAFM_med))$adj.r.squared
+summary(lm(CIV14 ~ f.DAFM_high))$adj.r.squared
 
 summary(lm(CIV14~f.Huang))$adj.r.squared

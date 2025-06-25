@@ -11,10 +11,10 @@ Y = dum$UNRATE[494:733]-dum$UNRATE[493:732]
 X = readRDS("./Real data analysis/Fred-MD/FRED-MD.rds")
 QFMs = readRDS("./Real data analysis/Fred-MD/QFM Factors.rds")
 Huang = readRDS("./Real data analysis/Fred-MD/Huang Factors.rds")
-CQFM_unif = readRDS("./Real data analysis/Fred-MD/CQFM_unif.rds")
-CQFM_low= readRDS("./Real data analysis/Fred-MD/CQFM_low.rds")
-CQFM_med = readRDS("./Real data analysis/Fred-MD/CQFM_med.rds")
-CQFM_high = readRDS("./Real data analysis/Fred-MD/CQFM_high.rds")
+DAFM_unif = readRDS("./Real data analysis/Fred-MD/DAFM_unif.rds")
+DAFM_low= readRDS("./Real data analysis/Fred-MD/DAFM_low.rds")
+DAFM_med = readRDS("./Real data analysis/Fred-MD/DAFM_med.rds")
+DAFM_high = readRDS("./Real data analysis/Fred-MD/DAFM_high.rds")
 
 pmax = 5
 for(h in 1:6){
@@ -85,29 +85,29 @@ for(h in 1:6){
   pred_Huang = pred_Huang + dum$UNRATE[(733-120):(733-h)]
   huang = sqrt(mean((pred_Huang-Y.true)^2)) 
   
-  # AR + CQFM_{weight} / weight = unif, low, med, high
+  # AR + DAFM_{weight} / weight = unif, low, med, high
   pred_unif = c(); pred_low = c(); pred_med = c(); pred_high = c();
   for(st in 1:(120-h+1)){
     Z.win = lags[st:(st+119)]
     Y.win = Y[st:(st+119)]
-    pred_unif[st] = Frcst(Z.win,Y.win, h, pmax, Fact=cbind(CQFM_unif$f.CQFM[[st]]))$pred
-    pred_low[st] = Frcst(Z.win,Y.win, h, pmax, Fact=cbind(CQFM_low$f.CQFM[[st]]))$pred
-    pred_med[st] = Frcst(Z.win,Y.win, h, pmax, Fact=cbind(CQFM_med$f.CQFM[[st]]))$pred
-    pred_high[st] = Frcst(Z.win,Y.win, h, pmax, Fact=cbind(CQFM_high$f.CQFM[[st]]))$pred
+    pred_unif[st] = Frcst(Z.win,Y.win, h, pmax, Fact=cbind(DAFM_unif$f.DAFM[[st]]))$pred
+    pred_low[st] = Frcst(Z.win,Y.win, h, pmax, Fact=cbind(DAFM_low$f.DAFM[[st]]))$pred
+    pred_med[st] = Frcst(Z.win,Y.win, h, pmax, Fact=cbind(DAFM_med$f.DAFM[[st]]))$pred
+    pred_high[st] = Frcst(Z.win,Y.win, h, pmax, Fact=cbind(DAFM_high$f.DAFM[[st]]))$pred
   }
   pred_unif = pred_unif + dum$UNRATE[(733-120):(733-h)]
   pred_low = pred_low + dum$UNRATE[(733-120):(733-h)]
   pred_med = pred_med + dum$UNRATE[(733-120):(733-h)]
   pred_high = pred_high + dum$UNRATE[(733-120):(733-h)]
   
-  cqfm_unif = sqrt(mean((pred_unif-Y.true)^2)) 
-  cqfm_low = sqrt(mean((pred_low-Y.true)^2)) 
-  cqfm_med = sqrt(mean((pred_med-Y.true)^2)) 
-  cqfm_high = sqrt(mean((pred_high-Y.true)^2)) 
+  dafm_unif = sqrt(mean((pred_unif-Y.true)^2)) 
+  dafm_low = sqrt(mean((pred_low-Y.true)^2)) 
+  dafm_med = sqrt(mean((pred_med-Y.true)^2)) 
+  dafm_high = sqrt(mean((pred_high-Y.true)^2)) 
   
   print(h)
   print(list(ar=(ar/ar)^2, pca=(pca/ar)^2, qfm01=(qfm01/ar)^2, qfm1=(qfm1/ar)^2, 
              qfm3=(qfm3/ar)^2, qfm5=(qfm5/ar)^2, qfm7=(qfm7/ar)^2, qfm9=(qfm9/ar)^2, qfm99=(qfm99/ar)^2, huang=(huang/ar)^2, 
-             cqfm_unif=(cqfm_unif/ar)^2, cqfm_low=(cqfm_low/ar)^2, cqfm_med=(cqfm_med/ar)^2, cqfm_high=(cqfm_high/ar)^2))
+             dafm_unif=(dafm_unif/ar)^2, dafm_low=(dafm_low/ar)^2, dafm_med=(dafm_med/ar)^2, dafm_high=(dafm_high/ar)^2))
 }
 

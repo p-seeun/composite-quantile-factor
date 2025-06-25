@@ -1,4 +1,4 @@
-source("CQFM algorithm.R")
+source("DAFM algorithm.R")
 source("RobPCA, QFM algorithms.R")
 
 X = readRDS("./Real data analysis/Fred-MD/FRED-MD.rds")
@@ -9,9 +9,9 @@ Te=nrow(X)
 ## Estimate number of factors
 set.seed(1)
 
-# CQFM_unif
-CQFM_unif = cqfm_est(X, r=15, tau.vec=c(0.01,0.1,0.3,0.5,0.7,0.9,0.99), tol=1e-5, weight=c(1,1,1,1,1,1,1))
-lmat = CQFM_unif$lmat
+# DAFM_unif
+DAFM_unif = dafm_est(X, r=15, tau.vec=c(0.01,0.1,0.3,0.5,0.7,0.9,0.99), tol=1e-5, weight=c(1,1,1,1,1,1,1))
+lmat = DAFM_unif$lmat
 rhats = lapply(lmat, function(L){ x= eigen(t(L)%*%L/N)$values; return(sum( x > min(N,Te)^(-1/3)*x[1] ))}) 
 rhat = max(unlist(rhats))
 rhat # 7
@@ -59,23 +59,23 @@ dum = t(lmat) %*% lmat / N
 rhat <- sum(eigen(dum)$values > min(N,Te)^(-1/3)* eigen(dum)$values[1]) #log(N*Te/(N+Te))*(N+Te)/N/Te 
 rhat # =1
 
-# CQFM_low
-CQFM_low = cqfm_est(X, r=15, tau.vec=c(0.01,0.1,0.3,0.5,0.7,0.9,0.99), tol=1e-5, weight=c(2,2,1,1,1,1,1))
-lmat = CQFM_low$lmat
+# DAFM_low
+DAFM_low = dafm_est(X, r=15, tau.vec=c(0.01,0.1,0.3,0.5,0.7,0.9,0.99), tol=1e-5, weight=c(2,2,1,1,1,1,1))
+lmat = DAFM_low$lmat
 rhats = lapply(lmat, function(L){ x= eigen(t(L)%*%L/N)$values; return(sum( x > min(N,Te)^(-1/3)*x[1] ))}) 
 rhat = max(unlist(rhats))
 rhat # 7
 
-# CQFM_med
-CQFM_med = cqfm_est(X, r=15, tau.vec=c(0.01,0.1,0.3,0.5,0.7,0.9,0.99), tol=1e-5, weight=c(1,1,2,2,2,1,1))
-lmat = CQFM_med$lmat
+# DAFM_med
+DAFM_med = dafm_est(X, r=15, tau.vec=c(0.01,0.1,0.3,0.5,0.7,0.9,0.99), tol=1e-5, weight=c(1,1,2,2,2,1,1))
+lmat = DAFM_med$lmat
 rhats = lapply(lmat, function(L){ x= eigen(t(L)%*%L/N)$values; return(sum( x > min(N,Te)^(-1/3)*x[1] ))}) 
 rhat = max(unlist(rhats))
 rhat # 7
 
-# CQFM_high
-CQFM_high = cqfm_est(X, r=15, tau.vec=c(0.01,0.1,0.3,0.5,0.7,0.9,0.99), tol=1e-5, weight=c(1,1,1,1,1,2,2))
-lmat = CQFM_high$lmat
+# DAFM_high
+DAFM_high = dafm_est(X, r=15, tau.vec=c(0.01,0.1,0.3,0.5,0.7,0.9,0.99), tol=1e-5, weight=c(1,1,1,1,1,2,2))
+lmat = DAFM_high$lmat
 rhats = lapply(lmat, function(L){ x= eigen(t(L)%*%L/N)$values; return(sum( x > min(N,Te)^(-1/3)*x[1] ))}) 
 rhat = max(unlist(rhats))
 rhat # 7

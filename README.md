@@ -2,7 +2,7 @@
 The source code for simulations and real data analysis included in the paper 'A Data-Adaptive Factor Model Using Composite Quantile Approach' is available. For the real data analysis, two economic datasets are used: the CRSP monthly stock return data and the FRED-MD data.
 
 ## Overview
-- `CQFM algorithm.R`: It is a code for functions that estimate composite quantile factor model. 
+- `DAFM algorithm.R`: It is a code for functions that estimate data-adaptive factor model. 
 - `RobPCA, QFM algorithms.R`: It is a code that implements algorithms of robust PCA proposed by He et al.(2022) and quantile factor model proposed by Chen et al.(2021).
 - Simulations
   - This folder includes codes that derive the simulation results for the location-shift model and the location-scale-shift model, which are presented in Tables 1 and 2.

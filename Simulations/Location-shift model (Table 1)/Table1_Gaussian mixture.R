@@ -1,6 +1,6 @@
 #Location-shift model: Gaussian mixture
 
-source("CQFM algorithm.R")
+source("DAFM algorithm.R")
 source("RobPCA, QFM algorithms.R")
 library(cqrfactor)
 
@@ -9,10 +9,10 @@ rsquare <- function(a, B){
   return(lm$adj.r.squared)
 }
 
-## Rob.PCA and CQFM
+## Rob.PCA and DAFM
 RobPCA = list()
 Huang = list()
-CQFM = list()
+DAFM = list()
 
 for(n in 1:5){
   if(n==1){i=1; j=1}
@@ -31,7 +31,7 @@ for(n in 1:5){
   # Initialize vectors to store results
   R2_RobPCA = matrix(NA, nrow = rep, ncol = 3)
   R2_Huang = matrix(NA, nrow = rep, ncol = 3)
-  R2_CQFM = matrix(NA, nrow = rep, ncol = 3)
+  R2_DAFM = matrix(NA, nrow = rep, ncol = 3)
   
   for (s in 1:rep) {
     set.seed(s)
@@ -62,26 +62,26 @@ for(n in 1:5){
     # Estimate factors
     Fhat_RobPCA = robpca_est(X, r=3)$fmat
     Fhat_Huang = cqrfactor(X, r=3, tau=c(0.1,0.3,0.5,0.7,0.9), tol=1e-4)$fmat
-    Fhat_CQFM = cqfm_est(X, r=4, tau.vec=c(0.1,0.3,0.5,0.7,0.9), tol=1e-4, weight=weight)$fmat
+    Fhat_DAFM = dafm_est(X, r=4, tau.vec=c(0.1,0.3,0.5,0.7,0.9), tol=1e-4, weight=weight)$fmat
     
     r2_RobPCA = apply(F, 2, function(x) rsquare(x, Fhat_RobPCA))
     r2_Huang = apply(F, 2, function(x) rsquare(x, Fhat_Huang))
-    r2_CQFM = apply(F, 2, function(x) rsquare(x, Fhat_CQFM))
+    r2_DAFM = apply(F, 2, function(x) rsquare(x, Fhat_DAFM))
     
     # Store results
     R2_RobPCA[s, ] <- r2_RobPCA
     R2_Huang[s, ] <- r2_Huang
-    R2_CQFM[s, ] <- r2_CQFM
+    R2_DAFM[s, ] <- r2_DAFM
    
     print(s)
   }
   Mean_R2_RobPCA = colMeans(R2_RobPCA)
   Mean_R2_Huang = colMeans(R2_Huang)
-  Mean_R2_CQFM = colMeans(R2_CQFM)
+  Mean_R2_DAFM = colMeans(R2_DAFM)
   
   RobPCA[[n]] = Mean_R2_RobPCA
   Huang[[n]] = Mean_R2_Huang
-  CQFM[[n]] = Mean_R2_CQFM
+  DAFM[[n]] = Mean_R2_DAFM
 }
 
 ## QFMs
@@ -168,10 +168,10 @@ for(n in 1:5){
   QFM0.9[[n]] = Mean_R2_QFM0.9
 }
 
-# RobPCA[[n]], QFM0.1[[n]], ..., QFM0.9[[n]], Huang[[n]], CQFM[[n]] include results for n-th combination of (N,T).
+# RobPCA[[n]], QFM0.1[[n]], ..., QFM0.9[[n]], Huang[[n]], DAFM[[n]] include results for n-th combination of (N,T).
 Table1_mixgauss = matrix(nrow=7, ncol=0)
 for(n in 1:5){
-  table = rbind(RobPCA[[n]], QFM0.1[[n]], QFM0.3[[n]], QFM0.5[[n]], QFM0.7[[n]], QFM0.9[[n]], Huang[[n]], CQFM[[n]])
+  table = rbind(RobPCA[[n]], QFM0.1[[n]], QFM0.3[[n]], QFM0.5[[n]], QFM0.7[[n]], QFM0.9[[n]], Huang[[n]], DAFM[[n]])
   Table1_mixgauss = cbind(Table1_mixgauss, table)
 }
 

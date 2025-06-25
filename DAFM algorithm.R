@@ -32,7 +32,7 @@ loss.fun <-function(tau, vec){
 
 
 # Main algorithm
-cqfm_est = function(X, r, tau.vec, tol, k.star=1, weight){ # X : Te*N 
+dafm_est = function(X, r, tau.vec, tol, k.star=1, weight){ # X : Te*N 
   
   Te = nrow(X)
   N = ncol(X)

@@ -1,4 +1,4 @@
-source("CQFM algorithm.R")
+source("DAFM algorithm.R")
 source("RobPCA, QFM algorithms.R")
 
 X = readRDS("./Real data analysis/Fred-MD/FRED-MD.rds")
